@@ -8,7 +8,7 @@ from pathlib import Path
 HERE = Path(__file__).parent.resolve()
 RESULTS = HERE.parent.joinpath("results").resolve()
 
-url = "https://web.archive.org/web/20230130230705/https://sites.usp.br/epischool/en/organizing-committee/"
+url = "https://web.archive.org/web/20230131113424/https://www.itps.org.br/membros"
 html = requests.get(url).text
 soup = BeautifulSoup(html, "lxml")
 output_file_path = RESULTS.joinpath("curation_sheet.tsv")

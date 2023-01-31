@@ -10,13 +10,29 @@ def main():
 
     print(
         render_qs_url(
-            add_organizers_to_event(
+            add_members_to_organization(
                 curated_sheet_path=RESULTS.joinpath("curation_sheet.tsv"),
-                event_id="Q116505241",
-                reference_url="https://web.archive.org/web/20230130230705/https://sites.usp.br/epischool/en/organizing-committee/",
+                organization_id="Q116505289",
+                reference_url="https://web.archive.org/web/20230131113424/https://www.itps.org.br/membros",
             )
         )
     )
+
+
+def add_members_to_organization(curated_sheet_path, organization_id, reference_url):
+    df = pd.read_csv(curated_sheet_path, dtype={"id": object})
+    qs = ""
+    for i, row in df.iterrows():
+        if row["wikidata_id"] != "NONE":
+            property = "P463"
+            wikidata_id = row["wikidata_id"]
+            speaker_name = row["name"]
+            qs += (
+                f'{wikidata_id}|{property}|{organization_id}|S854|"{reference_url}"'
+                + "\n"
+            )
+            qs += f'{wikidata_id}|Aen|"{speaker_name}"' + "\n"
+    return qs
 
 
 def add_organizers_to_event(curated_sheet_path, event_id, reference_url):
